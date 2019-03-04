@@ -21,7 +21,7 @@ public class Customer extends BaseAggregateRoot<CustomerId> {
     private String deliveryAddress;
     private String password;
 
-    private Customer() {
+    Customer() {
         // A default constructor is needed by the persistence framework
         // but can be kept private
     }
