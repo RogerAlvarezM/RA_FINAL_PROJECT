@@ -11,7 +11,9 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+
                 sh './store-webapp-sample/gradlew check -p store-webapp-sample'
+                sh './store-webapp-sample/gradlew jacocoTestReport -p store-webapp-sample'
 
                 publishHTML target: [
                     allowMissing: false,
@@ -26,7 +28,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
-                    reportDir: 'store-webapp-sample/build/jacocoHtml',
+                    reportDir: 'store-webapp-sample/build/jacoco',
                     reportFiles: 'index.html',
                     reportName: 'JaCoCo Report'
                   ]                              
