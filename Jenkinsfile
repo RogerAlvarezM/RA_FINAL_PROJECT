@@ -6,14 +6,19 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh './store-webapp-sample/gradlew clean build -p store-webapp-sample'
+                sh './store-webapp-sample/gradlew jar -p store-webapp-sample'
+                archiveArtifacts artifacts: 'store-webapp-sample/build/libs/**/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'store-webapp-sample/build/libs/**/*.war', fingerprint: true
             }
         }
+
         stage('Test') {
             steps {
                 echo 'Testing..'
 
                 sh './store-webapp-sample/gradlew check -p store-webapp-sample'
                 sh './store-webapp-sample/gradlew jacocoTestReport -p store-webapp-sample'
+                junit 'store-webapp-sample/build/test-results/**/*.xml'
 
                 publishHTML target: [
                     allowMissing: false,
@@ -34,19 +39,12 @@ pipeline {
                   ]                              
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh './store-webapp-sample/gradlew jar -p store-webapp-sample'
-            }
-        }
-    }
 
-    post {
-        always {            
-            archiveArtifacts artifacts: 'store-webapp-sample/build/libs/**/*.jar', fingerprint: true
-            archiveArtifacts artifacts: 'store-webapp-sample/build/libs/**/*.war', fingerprint: true
-            junit 'store-webapp-sample/build/test-results/**/*.xml'
+        stage('Code Quality') {
+            steps {
+                echo 'Analize with Sonarqube..'
+                sh './store-webapp-sample/gradlew sonarqube -p store-webapp-sample'
+            }
         }
     }
 }
