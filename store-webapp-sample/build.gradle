@@ -7,8 +7,8 @@ plugins {
     id 'maven-publish'
     id 'war'
     id "org.gretty" version "2.2.0"
-    id 'jacoco'
-    id 'org.sonarqube' version '2.7'
+    id 'jacoco'    
+    id "org.sonarqube" version "2.6"
 }
 
 version='1.0'
@@ -73,6 +73,7 @@ jacocoTestReport {
     reports {
         xml.enabled false
         csv.enabled false
-        html.destination file("${buildDir}/reports/jacoco")
+        html.destination file("${buildDir}/reports/jacocoHtml")
     }
 }
+
