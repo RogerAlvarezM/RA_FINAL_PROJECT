@@ -42,8 +42,8 @@ pipeline {
 
     post {
         always {            
-            archiveArtifacts artifacts: 'gradle-jenkins-at08/build/libs/**/*.jar', fingerprint: true
-            archiveArtifacts artifacts: 'gradle-jenkins-at08/build/libs/**/*.war', fingerprint: true
+            archiveArtifacts artifacts: 'store-webapp-sample/build/libs/**/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'store-webapp-sample/build/libs/**/*.war', fingerprint: true
             junit 'store-webapp-sample/build/test-results/**/*.xml'
         }
     }
